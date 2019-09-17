@@ -201,3 +201,6 @@ IMAGE_INSTALL_append_rpi = " kernel-modules"
 
 # otherwise e.g. vboxguest needed by qemux86 webos-images isn't enabled and do_rootfs fails
 PREFERRED_VERSION_linux-yocto = "4.18%"
+
+# Move from base_prefix to prefix for ostree to update it.
+ros_prefix = "${prefix}/opt/ros/${ROS_DISTRO}"
