@@ -44,14 +44,7 @@ do_configure_prepend_pn-webos-initscripts() {
          # NB. The CMake variable WEBOS_TARGET_DISTRO is set to DISTRO by webos_cmake.bbclass .
         local distro_dir=${DISTRO}
         local systemd_system_scripts_dir=${base_libdir}/systemd/system/scripts
-        # Handle older webos-initscripts layout and system scripts installation location:
-        if [ ! -d ${S}/files/systemd/services/$distro_dir ]; then
-            distro_dir=distro/${DISTRO}
-            systemd_system_scripts_dir=${sysconfdir}/systemd/system/scripts
-        fi
-        if [ ! -d ${S}/files/systemd/services/$distro_dir ]; then
-            distro_dir=
-        fi
+
         if [ ! -d ${S}/files/systemd/services/$distro_dir ]; then
             bberror "do_configure_prepend_pn-webos-initscripts in ${FILE} doesn't know where to put webos-device-config.service"
         fi
