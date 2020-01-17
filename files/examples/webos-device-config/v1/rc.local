@@ -5,7 +5,7 @@
 # boots, /etc/rc.local has invoked it. Return failure when "firstboot" to prevent the copying of the script off of the USB flash
 # drive (which means /etc/rc.local won't find it).
 #
-# Copyright (c) 2019 LG Electronics, Inc.
+# Copyright (c) 2019-2020 LG Electronics, Inc.
 
 # Useful when debugging:
 # set -x
@@ -13,7 +13,7 @@
 # : webos-device-config/v1/rc.local $1
 
 # Increment this when making structural changes so that it's easy to know if what's on a particular flash drive is the latest.
-SCRIPT_REVISION=1
+SCRIPT_REVISION=2
 
 DEVICE_HOSTNAME="tb3-01"
 
@@ -32,8 +32,9 @@ DEVICE_IPV4_ADDR="192.168.0.105"
 # If the device is running ROS 1 and "roscore" will be run on another ROS node, set this to the value for ROS_MASTER_URI. NB. The
 # default port is 11311.
 DEVICE_MASTER_URI=""
-
-
+# Set either to "" to disable
+DEVICE_SWUPDATE_SERVER_URL="http://192.168.0.101:8080"
+DEVICE_SWUPDATE_SERVER_TOKEN="********"
 
 # Things to be done only upon first boot.
 do_firstboot_actions()
@@ -46,6 +47,18 @@ do_firstboot_actions()
     # Empirically determined:
     sleep 10
     luna-send -n 1 -f luna://com.webos.service.wifi/connect '{"ssid": "'$DEVICE_WIFI_SSID'", "security": {"securityType": "psk", "simpleSecurity": {"passKey": "'$DEVICE_WIFI_PASSWORD'"} } }'
+    # Setup swupdate if configured.
+    if [ -n "$DEVICE_SWUPDATE_SERVER_URL" -a -n "$DEVICE_SWUPDATE_SERVER_TOKEN" ]; then
+        mkdir -p /var/systemd/system/env
+        echo "DEVICE_ID=$DEVICE_HOSTNAME" > /var/systemd/system/env/swupdater.env
+
+        fw_setenv hawkbit_tenant DEFAULT
+        fw_setenv hawkbit_url $DEVICE_SWUPDATE_SERVER_URL
+        fw_setenv hawkbit_token $DEVICE_SWUPDATE_SERVER_TOKEN
+
+        # ASSERT(swupdater starts after rc-local). But add test so that this script can be run manually.
+        systemctl -q is-active swupdater && restart swupdater
+    fi
 
     # Add setting up the ROS workspace to $HOME/.profile .
     [ -w $HOME/.profile ] && sed -i -e '/^# WEBOS-DEVICE-CONFIG-BEGIN/,/^# WEBOS-DEVICE-CONFIG-END/ d' $HOME/.profile
