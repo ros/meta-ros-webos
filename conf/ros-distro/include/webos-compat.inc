@@ -193,3 +193,12 @@ PREFERRED_VERSION_linux-yocto = "4.18%"
 
 # Move from base_prefix to prefix for ostree to update it.
 ros_prefix = "${prefix}/opt/ros/${ROS_DISTRO}"
+
+# python*-pyqt5 is blacklisted, because webOS OSE is missing newer meta-qt5 from warrior with older
+# meta-oe thud which has incompatible old sip:
+# python-pyqt5 was skipped: Recipe is blacklisted: needs newer sip than 4.19.12 what we have in thud, This version of PyQt5 requires sip 4.19.14 or later. http://caprica.lgsvl.com:8080/Errors/Details/1509139
+ROS_WORLD_SKIP_GROUPS += "pyqt5"
+
+# mongodb is blacklisted in webOS OSE:
+# mongodb was skipped: Recipe is blacklisted: src/mongo/util/net/ssl_manager.cpp:557:70: error: invalid conversion from 'size_t*' {aka 'unsigned int*'} to 'long unsigned int*' [-fpermissive] http://caprica.lgsvl.com:8080/Errors/Details/1509767
+ROS_WORLD_SKIP_GROUPS += "mongodb"
