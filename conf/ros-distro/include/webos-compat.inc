@@ -202,3 +202,9 @@ ROS_WORLD_SKIP_GROUPS += "pyqt5"
 # mongodb is blacklisted in webOS OSE:
 # mongodb was skipped: Recipe is blacklisted: src/mongo/util/net/ssl_manager.cpp:557:70: error: invalid conversion from 'size_t*' {aka 'unsigned int*'} to 'long unsigned int*' [-fpermissive] http://caprica.lgsvl.com:8080/Errors/Details/1509767
 ROS_WORLD_SKIP_GROUPS += "mongodb"
+
+# webOS OSE already sets necessary license flags:
+# meta-webos/conf/distro/webos.conf:LICENSE_FLAGS_WHITELIST_append = " commercial_gstreamer1.0-omx"
+# and removes the restricted faad dependency:
+# meta-webos-raspberrypi/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.%.bbappend:PACKAGECONFIG_remove_rpi = "faad"
+ROS_WORLD_SKIP_GROUPS_remove = "world-license"
