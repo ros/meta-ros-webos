@@ -273,3 +273,68 @@ PNBLACKLIST[xen] ?= "Depends on blacklisted dev86-native"
 PNBLACKLIST[python-pywbem] ?= "Depends on blacklisted python-m2crypto"
 PNBLACKLIST[kubernetes] ?= "Depends on blacklisted cni"
 PNBLACKLIST[python3-pyjks] ?= "Depends on blacklisted python3-twofish"
+
+# These are reproducible only with rpi MACHINEs, most likely caused by usrmerge DISTRO_FEATURE enabled with sota from meta-updater
+# meta-openembedded/meta-filesystems/recipes-utils/xfsdump/xfsdump_3.1.8.bb:do_configure
+PNBLACKLIST[xfsdump] ?= "ERROR: xfsdump-3.1.8-r0 do_configure: Function failed: do_configure: | FATAL ERROR: could not find a current XFS handle library."
+# meta-openembedded/meta-filesystems/recipes-utils/xfsprogs/xfsprogs_4.18.0.bb:do_package
+PNBLACKLIST[xfsprogs] ?= "ERROR: xfsprogs-4.18.0-r0 do_package: QA Issue: xfsprogs: Files/directories were installed but not shipped in any package:"
+# meta-openembedded/meta-multimedia/recipes-connectivity/rygel/rygel_0.34.0.bb:do_install
+PNBLACKLIST[rygel] ?= "ERROR: rygel-0.34.0-r0 do_install: Function failed: do_install: rmdir: failed to remove tmp-glibc/work/raspberrypi4-webos-linux-gnueabi/rygel/0.34.0-r0/image/usr/lib/systemd: Directory not empty "
+# meta-openembedded/meta-networking/recipes-connectivity/ufw/ufw_0.33.bb:do_package_qa
+PNBLACKLIST[ufw] ?= "ERROR: ufw-0.33-r0 do_package_qa: QA Issue: ufw package is not obeying usrmerge distro feature. /lib should be relocated to /usr. [usrmerge]"
+# meta-openembedded/meta-networking/recipes-filter/arno-iptables-firewall/arno-iptables-firewall_2.0.1g.bb:do_install
+PNBLACKLIST[arno-iptables-firewall] ?= "ERROR: arno-iptables-firewall-2.0.1g-r0 do_install: Function failed: do_install: install: cannot stat tmp-glibc/work/raspberrypi4-webos-linux-gnueabi/arno-iptables-firewall/2.0.1g-r0/arno-iptables-firewall_2.0.1g//usr/lib/systemd/system/arno-iptables-firewall.service: No such file or directory"
+# meta-openembedded/meta-networking/recipes-kernel/wireguard/wireguard-module_0.0.20171221.bb:do_package
+PNBLACKLIST[wireguard-module] ?= "ERROR: wireguard-module-0.0.20171221-r0 do_package: QA Issue: wireguard-module: Files/directories were installed but not shipped in any package"
+# meta-openembedded/meta-networking/recipes-protocols/babeld/babeld_1.8.3.bb:do_package
+PNBLACKLIST[babeld] ?= "ERROR: babeld-1.8.3-r0 do_package: QA Issue: babeld: Files/directories were installed but not shipped in any package"
+# meta-openembedded/meta-networking/recipes-support/cifs/cifs-utils_git.bb:do_package
+PNBLACKLIST[cifs-utils] ?= "ERROR: cifs-utils-6.7-r0 do_package: QA Issue: cifs-utils: Files/directories were installed but not shipped in any package"
+# meta-openembedded/meta-networking/recipes-support/linux-atm/linux-atm_2.5.2.bb:do_package_qa
+PNBLACKLIST[linux-atm] ?= "ERROR: linux-atm-2.5.2-r0 do_package_qa: QA Issue: linux-atm package is not obeying usrmerge distro feature. /lib should be relocated to /usr. [usrmerge]"
+# meta-openembedded/meta-oe/recipes-connectivity/lirc/lirc_0.9.4d.bb:do_package
+PNBLACKLIST[lirc] ?= "ERROR: lirc-0.9.4d-r0 do_package: SYSTEMD_SERVICE_lirc value lircmd.service does not exist"
+# meta-openembedded/meta-oe/recipes-connectivity/phonet-utils/phonet-utils_git.bb:do_package_qa
+PNBLACKLIST[phonet-utils] ?= "ERROR: phonet-utils-0.0.0+gitrAUTOINC+4acfa720fd-r2 do_package_qa: QA Issue: phonet-utils package is not obeying usrmerge distro feature. /lib should be relocated to /usr. [usrmerge]"
+# meta-openembedded/meta-oe/recipes-extended/boinc/boinc-client_7.12.bb:do_package
+PNBLACKLIST[boinc-client] ?= "ERROR: boinc-client-7.12-r0 do_package: SYSTEMD_SERVICE_boinc-client value boinc-client.service does not exist"
+# meta-openembedded/meta-oe/recipes-extended/fluentbit/fluentbit_0.12.1.bb:do_package
+PNBLACKLIST[fluentbit] ?= "ERROR: fluentbit-0.12.1-r0 do_package: SYSTEMD_SERVICE_fluentbit value td-agent-bit.service does not exist"
+# meta-openembedded/meta-oe/recipes-extended/scsirastools/scsirastools_1.6.6.bb:do_package
+PNBLACKLIST[scsirastools] ?= "ERROR: scsirastools-1.6.6-r0 do_package: QA Issue: scsirastools: Files/directories were installed but not shipped in any package"
+# meta-openembedded/meta-oe/recipes-extended/uml-utilities/uml-utilities_20040406.bb:do_package
+PNBLACKLIST[uml-utilities] ?= "ERROR: uml-utilities-20040406-r1 do_package: QA Issue: uml-utilities: Files/directories were installed but not shipped in any package"
+# meta-openembedded/meta-oe/recipes-graphics/dietsplash/dietsplash_git.bb:do_package
+PNBLACKLIST[dietsplash] ?= "ERROR: dietsplash-0.3-r1 do_package: QA Issue: dietsplash: Files/directories were installed but not shipped in any package"
+# meta-openembedded/meta-oe/recipes-security/tomoyo-tools/tomoyo-tools_2.5.0.bb:do_package
+PNBLACKLIST[tomoyo-tools] ?= "ERROR: tomoyo-tools-2.5.0-r0 do_package: QA Issue: tomoyo-tools: Files/directories were installed but not shipped in any package"
+# meta-openembedded/meta-oe/recipes-shells/tcsh/tcsh_6.20.00.bb:do_install
+PNBLACKLIST[tcsh] ?= "ERROR: tcsh-6.20.00-r0 do_install: Function failed: do_install: ln: failed to create symbolic link tmp-glibc/work/raspberrypi4-webos-linux-gnueabi/tcsh/6.20.00-r0/image/usr/bin/tcsh: File exists"
+# meta-openembedded/meta-oe/recipes-support/gradm/gradm_3.1.bb:do_package
+PNBLACKLIST[gradm] ?= "ERROR: gradm-3.1-r0 do_package: QA Issue: gradm: Files/directories were installed but not shipped in any package"
+# meta-openembedded/meta-oe/recipes-support/libsmi/libsmi_0.5.0.bb:do_package_qa
+PNBLACKLIST[libsmi] ?= "ERROR: libsmi-0.5.0-r0 do_package_qa: QA Issue: /usr/bin/smistrip contained in package libsmi requires /usr/bin/sh, but no providers found in RDEPENDS_libsmi? [file-rdeps]"
+# meta-openembedded/meta-oe/recipes-support/usb-modeswitch/usb-modeswitch_2.5.0.bb:do_package
+PNBLACKLIST[usb-modeswitch] ?= "ERROR: usb-modeswitch-2.5.0-r0 do_package: QA Issue: usb-modeswitch: Files/directories were installed but not shipped in any package"
+# meta-openembedded/meta-python/recipes-devtools/python/python-pyrex_0.9.9.bb:do_package
+PNBLACKLIST[python-pyrex] ?= "ERROR: python-pyrex-0.9.9-r4 do_package: QA Issue: python-pyrex: Files/directories were installed but not shipped in any package"
+# meta-raspberrypi/recipes-multimedia/omxplayer/omxplayer_git.bb:do_compile
+PNBLACKLIST[omxplayer] ?= "ERROR: omxplayer-git-r4 do_compile: Function failed: do_compile: DllAvFormat.h:117:51: error: ::avio_feof has not been declared"
+# meta-virtualization/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb:do_package
+PNBLACKLIST[cgroup-lite] ?= "ERROR: cgroup-lite-1.15-r0 do_package: QA Issue: cgroup-lite: Files/directories were installed but not shipped in any package"
+# meta-virtualization/recipes-containers/lxcfs/lxcfs_3.0.1.bb:do_package
+PNBLACKLIST[lxcfs] ?= "ERROR: lxcfs-3.0.1-r0 do_package: SYSTEMD_SERVICE_lxcfs value lxcfs.service does not exist"
+# meta-virtualization/recipes-extended/diod/diod_1.0.24.bb:do_package
+PNBLACKLIST[diod] ?= "ERROR: diod-1.0.24+gitAUTOINC+0ea3fe3d82-r0 do_package: QA Issue: diod: Files/directories were installed but not shipped in any package"
+# meta-webosose/meta-webos/recipes-upstreamable/bootchart2/bootchart2_git.bb:do_package
+PNBLACKLIST[bootchart2] ?= "ERROR: bootchart2-0.14.8+gitAUTOINC+42509aa0c9-r10 do_package: SYSTEMD_SERVICE_bootchart2 value bootchart2.service does not exist"
+# openembedded-core/meta/recipes-connectivity/avahi/avahi-ui_0.7.bb:do_install
+PNBLACKLIST[avahi-ui] ?= "ERROR: avahi-ui-0.7-r0 do_install: Function failed: do_install: rm: cannot remove tmp-glibc/work/raspberrypi4-webos-linux-gnueabi/avahi-ui/0.7-r0/image/usr/lib/libavahi-c*: No such file or directory"
+# openembedded-core/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_233.bb:do_package
+PNBLACKLIST[systemd-bootchart] ?= "ERROR: systemd-bootchart-233+gitAUTOINC+fe1c5e41e6-r0 do_package: SYSTEMD_SERVICE_systemd-bootchart value systemd-bootchart.service does not exist"
+
+PNBLACKLIST[wireguard-tools] ?= "Depends on blacklisted wireguard-module"
+PNBLACKLIST[python-snimpy] ?= "Depends on blacklisted libsmi"
+PNBLACKLIST[lcdproc] ?= "Depends on blacklisted lirc"
+PNBLACKLIST[usb-modeswitch-data] ?= "Depends on blacklisted usb-modeswitch"
