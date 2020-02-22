@@ -338,3 +338,7 @@ PNBLACKLIST[wireguard-tools] ?= "Depends on blacklisted wireguard-module"
 PNBLACKLIST[python-snimpy] ?= "Depends on blacklisted libsmi"
 PNBLACKLIST[lcdproc] ?= "Depends on blacklisted lirc"
 PNBLACKLIST[usb-modeswitch-data] ?= "Depends on blacklisted usb-modeswitch"
+
+# Few more in zeus, but we can blacklist them in advance in thud branch, to keep it simple
+PNBLACKLIST[remmina] ?= "Depends on blacklisted avahi-ui"
+PNBLACKLIST[packagegroup-meta-multimedia] ?= "Depends on blacklisted gstd, gerbera, rygel"
