@@ -343,6 +343,16 @@ PNBLACKLIST[python-snimpy] ?= "Depends on blacklisted libsmi"
 PNBLACKLIST[lcdproc] ?= "Depends on blacklisted lirc"
 PNBLACKLIST[usb-modeswitch-data] ?= "Depends on blacklisted usb-modeswitch"
 
+# Few more failing in warrior:
+# meta-virtualization/recipes-networking/netns/netns_git.bb:do_compile_ptest_base
+PNBLACKLIST[netns] ?= "ERROR: netns-0.5.3-r0 do_compile_ptest_base: Function failed: do_compile_ptest_base: | bridge.go:10:2: cannot find package "github.com/genuinetools/netns/netutils""
+# meta-openembedded/meta-multimedia/recipes-multimedia/dvb-apps/dvb-apps_1.1.1.bb:do_package_qa
+PNBLACKLIST[dvb-apps] ?= "ERROR: dvb-apps-1.1.1-r0 do_package_qa: QA Issue: dvb-apps package is not obeying usrmerge distro feature. /lib should be relocated to /usr. [usrmerge]"
+# meta-updater/recipes-support/slcand-start/slcand-start.bb:do_populate_lic
+PNBLACKLIST[slcand-start] ?= "ERROR: slcand-start-1.0-r0 do_populate_lic: QA Issue: slcand-start: The LIC_FILES_CHKSUM does not match for file:///jenkins/mjansa/build-ros/webos-eloquent-warrior/openembedded-core/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690"
+
+PNBLACKLIST[tvheadend] ?= "Depends on blacklisted dvb-apps"
+
 # Few more in zeus, but we can blacklist them in advance in thud branch, to keep it simple
 PNBLACKLIST[remmina] ?= "Depends on blacklisted avahi-ui"
 PNBLACKLIST[packagegroup-meta-multimedia] ?= "Depends on blacklisted gstd, gerbera, rygel"
