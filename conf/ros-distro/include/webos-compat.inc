@@ -354,5 +354,17 @@ PNBLACKLIST[slcand-start] ?= "ERROR: slcand-start-1.0-r0 do_populate_lic: QA Iss
 PNBLACKLIST[tvheadend] ?= "Depends on blacklisted dvb-apps"
 
 # Few more in zeus, but we can blacklist them in advance in thud branch, to keep it simple
+# meta-openembedded/meta-networking/recipes-support/wireshark/wireshark_3.0.6.bb:do_configure
+PNBLACKLIST[wireshark] ?= "ERROR: wireshark-1_3.0.6-r0 do_configure: Could not find a package configuration file provided by Qt5PrintSupport"
+# meta-openembedded/meta-oe/recipes-connectivity/telepathy/telepathy-glib_0.24.1.bb:do_configure
+PNBLACKLIST[telepathy-glib] ?= "ERROR: telepathy-glib-0.24.1-r0 do_configure: configure failed: configure: error: GObject-Introspection must be enabled for Vala bindings"
+# meta-openembedded/meta-oe/recipes-graphics/yad/yad_4.1.bb:do_compile
+PNBLACKLIST[yad] ?= "ERROR: yad-4.1-r0 do_compile: oe_runmake failed: git/src/yad.h:28:10: fatal error: gdk/gdkx.h: No such file or directory"
+# meta-openembedded/meta-oe/recipes-multimedia/live555/live555_20190828.bb:do_compile
+PNBLACKLIST[live555] ?= "ERROR: live555-20190828-r0 do_compile: oe_runmake failed: MPEG2TransportStreamParser.cpp:302:1: error: control reaches end of non-void function [-Werror=return-type]"
+# meta-openembedded/meta-oe/recipes-support/xmlsec1/xmlsec1_1.2.28.bb:do_configure
+PNBLACKLIST[xmlsec1] ?= "ERROR: xmlsec1-1.2.28-r0 do_configure: configure failed: checking for nspr library installation in qemux86-webos-linux/xmlsec1/1.2.28-r0/recipe-sysroot/usr/lib/../.. folder... configure: error: not found: qemux86-webos-linux/xmlsec1/1.2.28-r0/recipe-sysroot/usr/lib/../../usr/include/nspr.h and/or qemux86-webos-linux/xmlsec1/1.2.28-r0/recipe-sysroot/usr/lib/../..//usr/lib/libnspr4.so files don't exist), typo?"
+
 PNBLACKLIST[remmina] ?= "Depends on blacklisted avahi-ui"
+PNBLACKLIST[telepathy-idle] ?= "Depends on blacklisted telepathy-glib"
 PNBLACKLIST[packagegroup-meta-multimedia] ?= "Depends on blacklisted gstd, gerbera, rygel"
