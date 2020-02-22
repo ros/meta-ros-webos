@@ -203,6 +203,10 @@ ROS_WORLD_SKIP_GROUPS += "pyqt5"
 # mongodb was skipped: Recipe is blacklisted: src/mongo/util/net/ssl_manager.cpp:557:70: error: invalid conversion from 'size_t*' {aka 'unsigned int*'} to 'long unsigned int*' [-fpermissive] http://caprica.lgsvl.com:8080/Errors/Details/1509767
 ROS_WORLD_SKIP_GROUPS += "mongodb"
 
+# widgets PACKAGECONFIG is explicitly disabled in webOS OSE qtbase:
+# meta-webos/recipes-qt/qt5/qtbase_git.bbappend:PACKAGECONFIG_remove = "widgets"
+ROS_WORLD_SKIP_GROUPS += "qt5-widgets"
+
 # webOS OSE already sets necessary license flags:
 # meta-webos/conf/distro/webos.conf:LICENSE_FLAGS_WHITELIST_append = " commercial_gstreamer1.0-omx"
 # and removes the restricted faad dependency:
