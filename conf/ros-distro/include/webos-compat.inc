@@ -206,9 +206,10 @@ ROS_WORLD_SKIP_GROUPS += "qt5-widgets"
 
 # webOS OSE already sets necessary license flags:
 # meta-webos/conf/distro/webos.conf:LICENSE_FLAGS_WHITELIST_append = " commercial_gstreamer1.0-omx"
+ROS_WORLD_SKIP_GROUPS_remove = "world-license"
 # and removes the restricted faad dependency:
 # meta-webos-raspberrypi/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.%.bbappend:PACKAGECONFIG_remove_rpi = "faad"
-ROS_WORLD_SKIP_GROUPS_remove = "world-license"
+ROS_WORLD_SKIP_GROUPS_remove = "world-license-faad"
 
 PNBLACKLIST[nagios-core] ?= "${@bb.utils.contains('BBFILE_COLLECTIONS', 'webserver', '', 'Depends on apache2 from meta-webserver which is not included', d)}"
 PNBLACKLIST[nagios-plugins] ?= "${@bb.utils.contains('BBFILE_COLLECTIONS', 'webserver', '', 'Depends on nagios-core which depends on apache2 from meta-webserver which is not included', d)}"
