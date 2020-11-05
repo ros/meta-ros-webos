@@ -372,6 +372,7 @@ ROS_WORLD_SKIP_GROUPS += "python3-protobuf"
 PNBLACKLIST[python3-protobuf] ?= "Not compatible with old protobuf from meta-webos/recipes-devtools/protobuf/protobuf_3.6.1.bb google/protobuf/pyext/message.cc:70:10: fatal error: google/protobuf/stubs/map_util.h: No such file or directory"
 PNBLACKLIST[python3-grpcio] ?= "Depends on blacklisted python3-protobuf which is not compatible with old protobuf from meta-webos/recipes-devtools/protobuf/protobuf_3.6.1.bb"
 PNBLACKLIST[python3-grpcio-tools] ?= "Depends on blacklisted python3-protobuf which is not compatible with old protobuf from meta-webos/recipes-devtools/protobuf/protobuf_3.6.1.bb"
+PNBLACKLIST[nanopb] ?= "Depends on blacklisted python3-protobuf which is not compatible with old protobuf from meta-webos/recipes-devtools/protobuf/protobuf_3.6.1.bb"
 
 PNBLACKLIST_GATOR = ""
 PNBLACKLIST_GATOR_x86 = "Not compatible with qemux86 kernel: #error gator requires the kernel to have CONFIG_PROFILING defined; after enabling CONFIG_PROFILING still fails with: work/qemux86-webos-linux/gator/6.7+gitAUTOINC+3ff46fedd4-r2/git/driver/gator_main.c:1399:41: error: initialization of 'struct tracepoint * const*' from incompatible pointer type 'const tracepoint_ptr_t *' {aka 'const int *'} [-Werror=incompatible-pointer-types]; fixed in gator 6.9"
