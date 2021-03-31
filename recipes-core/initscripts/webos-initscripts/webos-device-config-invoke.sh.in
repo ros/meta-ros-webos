@@ -1,0 +1,33 @@
+#!/bin/sh
+# Copyright (c) 2019-2021 LG Electronics, Inc.
+#
+# webos-device-config-invoke.sh WEBOS-DEVICE-CONFIG-DIR-ON-USB [COPY-TO-PATH]
+
+# Sanity check.
+[ $# -eq 0 ] && exit 1
+
+if [ -d $1 ]; then
+    if [ -d $1/v1 ]; then
+        rc_local=$1/v1/rc.local
+        # This rc.local expects an argument just like /etc/rc.local does, but also recognizes "firstboot" as well as "start". If
+        # it returns failure, don't copy it but return success to the unit file so that the sentinel is created.
+        $rc_local firstboot || exit 0
+        if [ $# -ge 2 ]; then
+            copy_to_path=$2
+            mkdir -p $(dirname $copy_to_path)
+            cp -fp $rc_local $copy_to_path
+            timestamp=$(date -u +%Y%m%d%H%M%S)
+            echo >> $copy_to_path \
+                "# Copied from $rc_local on $timestamp UTC (might not be accurate if the sync to network time has yet to occur)."
+            unset timestamp
+            unset copy_to_path
+        fi
+        unset rc_local
+
+        exit 0
+    # elif [ -d $1/v2 ]; then ...
+    fi
+fi
+
+# Return failure if a script wasn't executed because, say, the USB flash drive that's present isn't a device config one.
+exit 1

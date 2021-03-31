@@ -1,0 +1,23 @@
+# Copyright (c) 2019-2021 LG Electronics, Inc.
+#
+# Invoke webos-device-config-invoke.sh, which handles the webOS per-device configuration rc.local on the USB flash drive
+# automounted onto ${WEBOS_DEVICE_CONFIG_MOUNTPOINT} .
+
+[Unit]
+Description=webos - "%n"
+# Launch after webos-ibd.target so that networking is up.
+Requires=webos-ibd.target
+After=webos-ibd.target
+# XXX ConditionFirstBoot=true <- doesn't work!
+# Temporary scheme until ConditionFirstBoot works. Doing it this way is marginally less secure (but only marginally, since local
+# access is required to remove the sentinel file).
+ConditionPathIsDirectory=!$not_firstboot_sentinel_dir
+
+[Service]
+Type=oneshot
+ExecStart=$systemd_system_scripts_dir/webos-device-config-invoke.sh ${WEBOS_DEVICE_CONFIG_MOUNTPOINT}/${DISTRO}-device-config ${WEBOS_DEVICE_CONFIG_COPIED_RC_LOCAL}
+# This has the fortunate side-effects of preventing a re-insertion from invoking it again and allowing rc-local.service to detect
+# that is has been run:
+RemainAfterExit=yes
+
+# NB. .wants symlink "<sysconfdir>/systemd/system/<usb_mount_wants>/webos-device-config.service" installed by ${PN}.
