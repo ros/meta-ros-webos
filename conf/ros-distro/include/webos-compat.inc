@@ -220,7 +220,3 @@ PNBLACKLIST[gstd] ?= "Depends on blacklisted gstreamer1.0-rtsp-server"
 # meta-ros-common/conf/ros-distro/include/ros-world-recipe-blacklist.inc:PNBLACKLIST[packagegroup-meta-multimedia] ?= "${@bb.utils.contains('ROS_WORLD_SKIP_GROUPS', 'world-license', 'rdepends on gstd, gst-shark which depend on gstreamer1.0-plugins-bad which depends on faad2 which has a restricted license not whitelisted in LICENSE_FLAGS_WHITELIST', '', d)}"
 # meta-webos/conf/distro/include/webos-recipe-blacklist.inc:PNBLACKLIST[packagegroup-meta-multimedia] ?= "Depends on blacklisted gstd, gerbera, rygel"
 PNBLACKLIST[packagegroup-meta-multimedia] ?= "Depends on blacklisted gstd, gerbera, rygel"
-
-PNBLACKLIST_GATOR = ""
-PNBLACKLIST_GATOR_x86 = "Not compatible with qemux86 kernel: #error gator requires the kernel to have CONFIG_PROFILING defined; after enabling CONFIG_PROFILING still fails with: work/qemux86-webos-linux/gator/6.7+gitAUTOINC+3ff46fedd4-r2/git/driver/gator_main.c:1399:41: error: initialization of 'struct tracepoint * const*' from incompatible pointer type 'const tracepoint_ptr_t *' {aka 'const int *'} [-Werror=incompatible-pointer-types]; fixed in gator 6.9"
-PNBLACKLIST[gator] ?= "${PNBLACKLIST_GATOR}"
