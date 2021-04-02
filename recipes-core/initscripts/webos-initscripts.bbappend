@@ -18,21 +18,19 @@ SRC_URI += "\
 "
 do_configure_prepend() {
     if [ -n "${WEBOS_DEVICE_CONFIG_MOUNTPOINT}" ]; then
-         # NB. The CMake variable WEBOS_TARGET_DISTRO is set to DISTRO by webos_cmake.bbclass .
-        local distro_dir=${DISTRO}
-        local systemd_system_scripts_dir=${base_libdir}/systemd/system/scripts
-
-        if [ ! -d ${S}/files/systemd/services/$distro_dir ]; then
+        if [ ! -d ${S}/rootfs/lib/systemd/system/ ]; then
             bberror "do_configure_prepend in ${FILE} doesn't know where to put webos-device-config.service"
         fi
 
-        local not_firstboot_sentinel_dir=$(dirname ${WEBOS_DEVICE_CONFIG_COPIED_RC_LOCAL})
-        cp ${WORKDIR}/webos-device-config.service ${S}/files/systemd/services/$distro_dir/webos-device-config.service
-        cp ${WORKDIR}/webos-device-config-invoke.sh.in ${S}/files/systemd/scripts/$distro_dir/webos-device-config-invoke.sh.in
+        sed "s#.{WEBOS_DEVICE_CONFIG_MOUNTPOINT}#${WEBOS_DEVICE_CONFIG_MOUNTPOINT}#g; \
+            s#.{DISTRO}#${DISTRO}#g; \
+            s#.{WEBOS_DEVICE_CONFIG_COPIED_RC_LOCAL}#${WEBOS_DEVICE_CONFIG_COPIED_RC_LOCAL}#g; \
+            s#ExecStart=.systemd_system_scripts_dir/webos-device-config-invoke.sh#ExecStart=${base_libdir}/systemd/system/scripts/webos-device-config-invoke.sh#g; \
+            s#ConditionPathIsDirectory=..not_firstboot_sentinel_dir#ConditionPathIsDirectory=\!$(dirname ${WEBOS_DEVICE_CONFIG_COPIED_RC_LOCAL})#g" \
+            ${WORKDIR}/webos-device-config.service > ${S}/rootfs/lib/systemd/system/webos-device-config.service
 
-        # XXX Second -e only needed for older webos-initscripts layout.
-        sed -i -e "/webos_configure_source_files(systemd_distro_in_scripts\$/ s@\$@ files/systemd/scripts/$distro_dir/webos-device-config-invoke.sh@" \
-               -e "/set(systemd_units\$/ s@\$@ files/systemd/services/$distro_dir/webos-device-config.service@" \
+        cp ${WORKDIR}/webos-device-config-invoke.sh.in ${S}/rootfs/lib/systemd/system/scripts/webos-device-config-invoke.sh.in
+        sed -i -e "/webos_configure_source_files(lib_in_scripts\$/ s@\$@\n    rootfs/lib/systemd/system/scripts/webos-device-config-invoke.sh@" \
             ${S}/CMakeLists.txt
     fi  # [ -n "${WEBOS_DEVICE_CONFIG_MOUNTPOINT}" ]
 
