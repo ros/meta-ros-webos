@@ -20,13 +20,6 @@ DISTRO_VERSION_append = "${ROS_OE_DISTRO_VERSION_APPEND}"
 BUILDCFG_VARS_remove = "${@oe.utils.conditional('WEBOS_DISTRO_TOPDIR_REVISION', '<unknown>', 'WEBOS_DISTRO_TOPDIR_REVISION', '', d)}"
 BUILDCFG_VARS_remove = "${@oe.utils.conditional('WEBOS_DISTRO_TOPDIR_DESCRIBE', '<unknown>', 'WEBOS_DISTRO_TOPDIR_DESCRIBE', '', d)}"
 
-# XXX Perhaps move this into a .bbappend that is only parsed with meta-networking (the layer with the recipe for ntp) is present.
-do_install_prepend_pn-ntp() {
-    # As recommeneded by https://developers.google.com/time/faq#how_do_i_use_google_public_ntp and
-    # https://developers.google.com/time/guides
-    sed -i -e  '/time.server.example.com/ s/^.*$/server time.google.com iburst prefer/' ${WORKDIR}/ntp.conf
-}
-
 # webos-rpi.inc _removes "kernel-modules" from MACHINE_EXTRA_RRECOMMENDS, and _remove happens last, so we can't add it back to
 # MACHINE_EXTRA_RRECOMMENDS.
 IMAGE_INSTALL_append_rpi = " kernel-modules"
