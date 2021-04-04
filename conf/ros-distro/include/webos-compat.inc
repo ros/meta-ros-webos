@@ -32,10 +32,6 @@ ros_prefix = "${prefix}/opt/ros/${ROS_DISTRO}"
 # python-pyqt5 was skipped: Recipe is blacklisted: needs newer sip than 4.19.12 what we have in thud, This version of PyQt5 requires sip 4.19.14 or later. http://caprica.lgsvl.com:8080/Errors/Details/1509139
 ROS_WORLD_SKIP_GROUPS += "pyqt5"
 
-# mongodb is blacklisted in webOS OSE:
-# mongodb was skipped: Recipe is blacklisted: src/mongo/util/net/ssl_manager.cpp:557:70: error: invalid conversion from 'size_t*' {aka 'unsigned int*'} to 'long unsigned int*' [-fpermissive] http://caprica.lgsvl.com:8080/Errors/Details/1509767
-ROS_WORLD_SKIP_GROUPS += "mongodb"
-
 # widgets PACKAGECONFIG is explicitly disabled in webOS OSE qtbase:
 # meta-webos/recipes-qt/qt5/qtbase_git.bbappend:PACKAGECONFIG_remove = "widgets"
 ROS_WORLD_SKIP_GROUPS += "qt5-widgets"
@@ -46,16 +42,6 @@ ROS_WORLD_SKIP_GROUPS_remove = "world-license"
 # and removes the restricted faad dependency:
 # meta-webos-raspberrypi/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.%.bbappend:PACKAGECONFIG_remove_rpi = "faad"
 ROS_WORLD_SKIP_GROUPS_remove = "world-license-faad"
-
-# In few cases we need to set different PNBLACKLIST than the conditional one in meta-ros
-# because webOS OSE blacklists some dependencies unconditionally
-# meta-ros-common/conf/ros-distro/include/ros-world-recipe-blacklist.inc:PNBLACKLIST[gstd] ?= "${@bb.utils.contains('ROS_WORLD_SKIP_GROUPS', 'world-license', 'depends on gstreamer1.0-plugins-bad which depends on faad2 which has a restricted license not whitelisted in LICENSE_FLAGS_WHITELIST', '', d)}"
-# meta-webos/conf/distro/include/webos-recipe-blacklist.inc:PNBLACKLIST[gstd] ?= "Depends on blacklisted gstreamer1.0-rtsp-server"
-PNBLACKLIST[gstd] ?= "Depends on blacklisted gstreamer1.0-rtsp-server"
-
-# meta-ros-common/conf/ros-distro/include/ros-world-recipe-blacklist.inc:PNBLACKLIST[packagegroup-meta-multimedia] ?= "${@bb.utils.contains('ROS_WORLD_SKIP_GROUPS', 'world-license', 'rdepends on gstd, gst-shark which depend on gstreamer1.0-plugins-bad which depends on faad2 which has a restricted license not whitelisted in LICENSE_FLAGS_WHITELIST', '', d)}"
-# meta-webos/conf/distro/include/webos-recipe-blacklist.inc:PNBLACKLIST[packagegroup-meta-multimedia] ?= "Depends on blacklisted gstd, gerbera, rygel"
-PNBLACKLIST[packagegroup-meta-multimedia] ?= "Depends on blacklisted gstd, gerbera, rygel"
 
 # meta-raspberrypi/recipes-multimedia/omxplayer/omxplayer_git.bb:do_compile
 # meta-webos/conf/distro/include/webos-recipe-blacklist.inc:PNBLACKLIST[omxplayer] ?= "ERROR: omxplayer-git-r4 do_compile: Function failed: do_compile: DllAvFormat.h:117:51: error: ::avio_feof has not been declared"
