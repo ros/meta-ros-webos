@@ -46,3 +46,16 @@ ROS_WORLD_SKIP_GROUPS_remove = "world-license-faad"
 # meta-raspberrypi/recipes-multimedia/omxplayer/omxplayer_git.bb:do_compile
 # meta-webos/conf/distro/include/webos-recipe-blacklist.inc:PNBLACKLIST[omxplayer] ?= "ERROR: omxplayer-git-r4 do_compile: Function failed: do_compile: DllAvFormat.h:117:51: error: ::avio_feof has not been declared"
 PNBLACKLIST[omxplayer] ?= "ERROR: omxplayer-git-r4 do_compile: Function failed: do_compile: DllAvFormat.h:117:51: error: ::avio_feof has not been declared"
+
+# since meta-qt5 was replaced with meta-qt6 in OSE, this will be fixed in OSE 2.13 by WRN-2657:
+PNBLACKLIST[packagegroup-qt6-addons] ?= "depends on blacklisted qtconnectivity, qtmqtt, qtopcua"
+PNBLACKLIST[packagegroup-qt6-modules] ?= "depends on blacklisted packagegroup-qt6-addons"
+PNBLACKLIST[qtdeviceutilities] ?= "fails to build with ninja: error: unknown target 'install' http://gecko.lge.com/Errors/Details/200304"
+# there is another conditional PNBLACKLIST in meta-ros for this
+# PNBLACKLIST[qtcharts] ?= "${@bb.utils.contains('ROS_WORLD_SKIP_GROUPS', 'world-license-faad', 'depends on qtmultimedia which with default gstreamer PACKAGECONFIG it depends on gstreamer1.0-plugins-bad which depends on faad2 (for rpi) which has a restricted license not whitelisted in LICENSE_FLAGS_WHITELIST', '', d)}"
+PNBLACKLIST[qtcharts] ?= "fails to build with ninja: error: unknown target 'install' http://gecko.lge.com/Errors/Details/200305"
+# there is another conditional PNBLACKLIST in meta-ros for this
+# PNBLACKLIST[qtdatavis3d] ?= "${@bb.utils.contains('ROS_WORLD_SKIP_GROUPS', 'world-license-faad', 'depends on qtmultimedia which with default gstreamer PACKAGECONFIG it depends on gstreamer1.0-plugins-bad which depends on faad2 (for rpi) which has a restricted license not whitelisted in LICENSE_FLAGS_WHITELIST', '', d)}"
+PNBLACKLIST[qtdatavis3d] ?= "fails to build with ninja: error: unknown target 'install' http://gecko.lge.com/Errors/Details/200303"
+PNBLACKLIST[qtpositioning] ?= "requires dbus module enabled in qtbase, which was disabled in PLAT-18268 http://gecko.lge.com/Errors/Details/200302"
+PNBLACKLIST[com.webos.app.test.smack.native] ?= "fails to build qt-6: main.cpp:27:12: error: variable 'QFile f' has initializer but incomplete type http://gecko.lge.com/Errors/Details/200306"
