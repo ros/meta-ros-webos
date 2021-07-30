@@ -4,22 +4,22 @@
 # mounted upon WEBOS_DEVICE_CONFIG_MOUNTPOINT. It runs webos-device-config-invoke.sh, which, if it finds a
 # WEBOS_DEVICE_CONFIG_MOUNTPOINT/DISTRO-device-config/WEBOS_DEVICE_CONFIG_VERSION/rc.local, runs it and then copies it to
 # WEBOS_DEVICE_CONFIG_COPIED_RC_LOCAL, where upon subsequent boots, it will be run by /etc/rc.local . These settings can be
-# overridden in conf/local.conf . Set WEBOS_DEVICE_CONFIG_MOUNTPOINT_pn-webos-initscripts to "" to disable the feature; set
-# WEBOS_DEVICE_CONFIG_COPIED_RC_LOCAL_pn-webos-initscripts to "" to prevent the copying.
+# overridden in conf/local.conf . Set WEBOS_DEVICE_CONFIG_MOUNTPOINT:pn-webos-initscripts to "" to disable the feature; set
+# WEBOS_DEVICE_CONFIG_COPIED_RC_LOCAL:pn-webos-initscripts to "" to prevent the copying.
 # XXX Eventually move into a .bbappend!!
 WEBOS_DEVICE_CONFIG_MOUNTPOINT = "/tmp/usb/sda/sda1"
 WEBOS_DEVICE_CONFIG_VERSION = "v1"
 WEBOS_DEVICE_CONFIG_COPIED_RC_LOCAL = "${webos_localstatedir}/webos-device-config/rc.local"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 SRC_URI += "\
     file://webos-device-config-invoke.sh.in \
     file://webos-device-config.service \
 "
-do_configure_prepend() {
+do_configure:prepend() {
     if [ -n "${WEBOS_DEVICE_CONFIG_MOUNTPOINT}" ]; then
         if [ ! -d ${S}/rootfs/lib/systemd/system/ ]; then
-            bberror "do_configure_prepend in ${FILE} doesn't know where to put webos-device-config.service"
+            bberror "do_configure:prepend in ${FILE} doesn't know where to put webos-device-config.service"
         fi
 
         sed "s#.{WEBOS_DEVICE_CONFIG_MOUNTPOINT}#${WEBOS_DEVICE_CONFIG_MOUNTPOINT}#g; \
@@ -40,7 +40,7 @@ do_configure_prepend() {
     sed -i -e '/ROS2 settings/ d' -e '/AMENT_PREFIX_PATH/ d' ${S}/files/systemd/environments/30-webos-global.conf.in
 }
 
-do_install_append() {
+do_install:append() {
     if [ -n "${WEBOS_DEVICE_CONFIG_COPIED_RC_LOCAL}" ]; then
         if [ ! -e ${D}${sysconfdir}/rc.local ]; then
 

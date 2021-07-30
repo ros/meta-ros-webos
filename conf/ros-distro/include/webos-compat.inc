@@ -4,25 +4,25 @@
 
 # Give ROS billing in DISTRO_NAME.
 ROS_OE_DISTRO_NAME_PREPEND ?= "${ROS_OE_DISTRO_NAME} with "
-DISTRO_NAME_prepend = "${ROS_OE_DISTRO_NAME_PREPEND}"
+DISTRO_NAME:prepend = "${ROS_OE_DISTRO_NAME_PREPEND}"
 
 # Append the webOS OSE build number to WEBOS_DISTRO_VERSION.
 ROS_WEBOS_DISTRO_VERSION_APPEND ??= ""
-WEBOS_DISTRO_VERSION_TYPE_append = "${ROS_WEBOS_DISTRO_VERSION_APPEND}"
+WEBOS_DISTRO_VERSION_TYPE:append = "${ROS_WEBOS_DISTRO_VERSION_APPEND}"
 
 # Append the ROS metadata version to DISTRO_VERSION.
 ROS_OE_DISTRO_VERSION_APPEND ?= "${@'+' + d.getVar('ROS_DISTRO_METADATA_VERSION', True)}"
-DISTRO_VERSION_append = "${ROS_OE_DISTRO_VERSION_APPEND}"
+DISTRO_VERSION:append = "${ROS_OE_DISTRO_VERSION_APPEND}"
 
 
 # These will be "<unknown>" if TOPDIR isn't a Git repo => drop them from the display of the build configuration if this is the
 # case.
-BUILDCFG_VARS_remove = "${@oe.utils.conditional('WEBOS_DISTRO_TOPDIR_REVISION', '<unknown>', 'WEBOS_DISTRO_TOPDIR_REVISION', '', d)}"
-BUILDCFG_VARS_remove = "${@oe.utils.conditional('WEBOS_DISTRO_TOPDIR_DESCRIBE', '<unknown>', 'WEBOS_DISTRO_TOPDIR_DESCRIBE', '', d)}"
+BUILDCFG_VARS:remove = "${@oe.utils.conditional('WEBOS_DISTRO_TOPDIR_REVISION', '<unknown>', 'WEBOS_DISTRO_TOPDIR_REVISION', '', d)}"
+BUILDCFG_VARS:remove = "${@oe.utils.conditional('WEBOS_DISTRO_TOPDIR_DESCRIBE', '<unknown>', 'WEBOS_DISTRO_TOPDIR_DESCRIBE', '', d)}"
 
 # webos-rpi.inc _removes "kernel-modules" from MACHINE_EXTRA_RRECOMMENDS, and _remove happens last, so we can't add it back to
 # MACHINE_EXTRA_RRECOMMENDS.
-IMAGE_INSTALL_append_rpi = " kernel-modules"
+IMAGE_INSTALL:append:rpi = " kernel-modules"
 
 # Move from base_prefix to prefix for ostree to update it.
 ros_prefix = "${prefix}/opt/ros/${ROS_DISTRO}"
@@ -38,10 +38,10 @@ ROS_WORLD_SKIP_GROUPS += "qt5-widgets"
 
 # webOS OSE already sets necessary license flags:
 # meta-webos/conf/distro/webos.conf:LICENSE_FLAGS_WHITELIST_append = " commercial_gstreamer1.0-omx"
-ROS_WORLD_SKIP_GROUPS_remove = "world-license"
+ROS_WORLD_SKIP_GROUPS:remove = "world-license"
 # and removes the restricted faad dependency:
 # meta-webos-raspberrypi/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.%.bbappend:PACKAGECONFIG_remove_rpi = "faad"
-ROS_WORLD_SKIP_GROUPS_remove = "world-license-faad"
+ROS_WORLD_SKIP_GROUPS:remove = "world-license-faad"
 
 # meta-raspberrypi/recipes-multimedia/omxplayer/omxplayer_git.bb:do_compile
 # meta-webos/conf/distro/include/webos-recipe-blacklist.inc:PNBLACKLIST[omxplayer] ?= "ERROR: omxplayer-git-r4 do_compile: Function failed: do_compile: DllAvFormat.h:117:51: error: ::avio_feof has not been declared"
